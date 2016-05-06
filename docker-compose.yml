@@ -1,0 +1,20 @@
+version: '2'
+services:
+  webapp:
+    build: ./webapp
+    depends_on:
+      - db
+  http:
+    image: nginx:1.10-alpine
+    ports:
+      - 80
+      - 443
+  db:
+    image: mysql:5.7
+    ports:
+      - 33061:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 'secret'
+      MYSQL_DATABASE: 'homestead'
+      MYSQL_USER: 'homestead'
+      MYSQL_PASSWORD: 'secret'
