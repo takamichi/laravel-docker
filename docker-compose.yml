@@ -4,6 +4,8 @@ services:
     build: ./webapp
     depends_on:
       - db
+    volumes:
+      - ./webapp:/var/www/html
   http:
     image: nginx:1.10-alpine
     ports:

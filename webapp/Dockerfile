@@ -8,3 +8,4 @@ RUN set -x \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_mysql \
     && apk del --no-cache --purge build-dependencies
+COPY ./ /var/www/html/
