@@ -6,6 +6,8 @@ services:
       - db
     volumes:
       - ./webapp:/var/www/html
+    environment:
+      DB_HOST: 'db'
   http:
     image: nginx:1.10-alpine
     ports:
