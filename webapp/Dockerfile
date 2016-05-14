@@ -8,5 +8,6 @@ RUN set -x \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_mysql \
     && apk del --no-cache --purge build-dependencies
+COPY ./php/php.ini /usr/local/etc/php/
 COPY ./ /var/www/html/
 RUN chmod -R 777 /var/www/html/bootstrap/cache/ /var/www/html/storage/
