@@ -1,4 +1,6 @@
+bootstrap/cache/*
+storage/*
 tests/
-.env
+#.env
 
 
