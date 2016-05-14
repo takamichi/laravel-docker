@@ -1,21 +1,21 @@
 version: '2'
 services:
   webapp:
-    build: ./webapp
+    build:
+      context: .
+      dockerfile: webapp.Dockerfile
     depends_on:
       - db
     volumes:
-      - ./webapp:/var/www/html
+      - ./webapp/storage/logs:/var/www/html/storage/logs
     environment:
       DB_HOST: 'db'
   http:
-    build: ./env/http
-    depends_on:
-      - webapp
-    volumes_from:
-      - webapp:ro
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile
     ports:
-      - 80
+      - 32080:80
       - 443
   db:
     image: mysql:5.7
