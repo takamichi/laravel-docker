@@ -12,6 +12,19 @@ elif [[ "$1" = "down" ]]
 then
     docker-compose down --rmi local -v
     exit
+elif [[ "$1" = "start" ]]
+then
+    docker-compose start ${@:2}
+    exit
+elif [[ "$1" = "stop" ]]
+then
+    docker-compose stop ${@:2}
+    exit
+elif [[ "$1" = "halt" ]]
+then
+    docker-compose stop ${@:2}
+    exit
 else
+    docker-compose ${@:1}
     exit
 fi
