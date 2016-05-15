@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+if [[ "$1" = "composer" ]]
+then
+    docker run --rm -v $(pwd)/webapp:/app composer/composer:1.1-alpine ${@:2}
+    exit
+elif [[ "$1" = "up" ]]
+then
+    docker-compose up -d --build
+    exit
+elif [[ "$1" = "down" ]]
+then
+    docker-compose down --rmi local -v
+    exit
+else
+    exit
+fi
