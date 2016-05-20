@@ -14,7 +14,8 @@ RUN curl -fsSL "https://github.com/xdebug/xdebug/archive/XDEBUG_$XDEBUG_VERSION.
     && mv /usr/src/php/ext/xdebug-XDEBUG_${XDEBUG_VERSION} /usr/src/php/ext/xdebug \
     && rm xdebug.zip \
     && docker-php-ext-configure xdebug \
-    && docker-php-ext-install xdebug
+    && docker-php-ext-install xdebug \
+    && rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 COPY env/php/php.ini /usr/local/etc/php/
 COPY webapp/ /var/www/html/
 RUN chmod -R 777 /var/www/html/bootstrap/cache/ /var/www/html/storage/
