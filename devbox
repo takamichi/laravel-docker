@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+DOCKER_MACHINE_NAME="lara-docker-dm"
+
+if [[ "$1" = "up" ]]
+then
+    docker-machine create --driver virtualbox ${DOCKER_MACHINE_NAME}
+    eval $(docker-machine env ${DOCKER_MACHINE_NAME})
+    docker-compose up -d --build
+
+    echo "docker machine: ${DOCKER_MACHINE_NAME} is `docker-machine ip ${DOCKER_MACHINE_NAME}`"
+    exit
+fi
+
+eval $(docker-machine env ${DOCKER_MACHINE_NAME})
+
+if [[ "$1" = "composer" ]]
+then
+    docker run --rm -v $(pwd)/webapp:/app composer/composer:1.1-alpine ${@:2}
+    exit
+elif [[ "$1" = "down" ]]
+then
+    docker-compose down --rmi local -v
+    exit
+elif [[ "$1" = "start" ]]
+then
+    docker-compose start ${@:2}
+    exit
+elif [[ "$1" = "stop" ]]
+then
+    docker-compose stop ${@:2}
+    exit
+elif [[ "$1" = "halt" ]]
+then
+    docker-machine stop ${DOCKER_MACHINE_NAME}
+    exit
+elif [[ "$1" = "destroy" ]]
+then
+    docker-machine rm ${DOCKER_MACHINE_NAME}
+    exit
+elif [[ "$1" = "env" ]]
+then
+    docker-machine env ${@:2} ${DOCKER_MACHINE_NAME}
+    exit
+else
+    docker-compose ${@:1}
+    exit
+fi
