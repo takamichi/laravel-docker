@@ -1,6 +1,0 @@
-bootstrap/cache/*
-storage/*
-tests/
-#.env
-
-

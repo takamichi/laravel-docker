@@ -1,35 +1,36 @@
 version: '2'
 services:
-  webapp:
+  app:
     build:
-      context: .
-      dockerfile: webapp.Dockerfile
+      context: ./
+      dockerfile: ./env/app.Dockerfile
     depends_on:
       - db
+    ports:
+      - 9000:9000
+      - 9090:9090
     volumes:
       - ./webapp/storage/logs:/var/www/html/storage/logs
-      - ./env/php/conf.d/xdebug.ini.dev:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./env/app/php/conf.d/xdebug.ini.dev:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./env/app/php-fpm.d/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
     environment:
       DB_HOST: 'db'
   http:
     build:
-      context: .
-      dockerfile: nginx.Dockerfile
+      context: ./
+      dockerfile: ./env/http.Dockerfile
     depends_on:
-      - webapp
+      - app
+    network_mode: "host"
     ports:
-      - 32080:80
-      - 443
+      - 80:80
+      - 443:443
   db:
     image: mysql:5.7
     ports:
-      - 33061:3306
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: 'secret'
       MYSQL_DATABASE: 'homestead'
       MYSQL_USER: 'homestead'
       MYSQL_PASSWORD: 'secret'
-  composer:
-    image: composer/composer:1.1-alpine
-    volumes:
-      - ./webapp:/app

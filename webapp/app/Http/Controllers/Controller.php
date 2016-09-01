@@ -15,7 +15,9 @@ class Controller extends BaseController
 
     public function index(Request $request)
     {
-        return $request->getHttpHost();
+        $tmp = $request->ajax();
+
+        return dd($_SERVER);
 
         //return view('welcome');
     }
